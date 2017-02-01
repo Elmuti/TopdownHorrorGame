@@ -1,0 +1,42 @@
+public class Player : PhysicsObject
+{
+	public delegate void DiedEventHandler(float killingBlowDamage);
+	public event DiedEventHandler Died;
+	public bool Dead = false;
+	public bool FadedToRed = false;
+	public double DeathFadeToRedDuration = 1.0;
+	public double DeathFadeDuration = 1.0;
+	
+	public void TakeDamage(float damage)
+	{
+		Health = Utilities.Clamp(Health - damage, 0f, MaxHealth);
+		if (Health == 0)
+		{
+			Died(damage);
+			Dead = true;
+		}
+	}
+	
+	protected override void Update(float delta, float elapsed)
+	{
+		if (Dead && !FadedToRed)
+		{
+			Color += new Color(DeathFadeToRedDuration * delta, 0, 0);
+			if (Color.RedComponent >= 255)
+			{
+				FadedToRed = true;
+			}
+		}
+		else if (Dead && FadedToRed && Transparency < 1)
+		{
+			Transparency += DeathFadeDuration * delta;
+		}
+	}
+}
+
+
+
+
+
+
+

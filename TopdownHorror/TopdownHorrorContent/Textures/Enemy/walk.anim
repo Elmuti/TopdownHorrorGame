@@ -1,0 +1,11 @@
+public double DefaultMoveSpeed = 32.0;
+public double AnimFPS = 5.0; //FPS at DefaultMoveSpeed
+
+
+//In Enemy Update:
+
+double ratio = DefaultMoveSpeed / AnimFPS;
+Animation.FPS = MoveSpeed * ratio;
+
+
+
